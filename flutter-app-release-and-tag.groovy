@@ -48,7 +48,7 @@ pipeline {
         }
         stage('Tag release') {
         	steps {
-        		sh 'gh release create ' + RELEASE_VERSION + '--generate-notes ./build/web/*.zip'
+        		sh 'gh release create ' + RELEASE_VERSION + ' --generate-notes ./build/web/*.zip'
         	}
         }
     }
