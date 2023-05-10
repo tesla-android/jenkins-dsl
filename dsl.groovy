@@ -1,8 +1,8 @@
 ROOT_PROJECT = 'Tesla Android'
 GITHUB_ORG_NAME = 'tesla-android'
 FLUTTER_APP = 'flutter-app'
-FLUTTER_APP_CI_JOB_NAME = FLUTTER_APP + '(CI)'
-FLUTTER_APP_RELEASE_JOB_NAME = FLUTTER_APP + '(release and tag))'
+FLUTTER_APP_CI_JOB_NAME = FLUTTER_APP + ' (CI)'
+FLUTTER_APP_RELEASE_JOB_NAME = FLUTTER_APP + ' (release and tag)'
 
 
 folder(ROOT_PROJECT) {
