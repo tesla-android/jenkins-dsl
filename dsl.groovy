@@ -1,17 +1,22 @@
 ROOT_PROJECT = 'Tesla Android'
 GITHUB_ORG_NAME = 'tesla-android'
 FLUTTER_APP = 'flutter-app'
-FLUTTER_APP_CI_JOB_NAME = FLUTTER_APP + ' (CI)'
-FLUTTER_APP_RELEASE_JOB_NAME = FLUTTER_APP + ' (release and tag)'
+FLUTTER_APP_CI_JOB_NAME = FLUTTER_APP + '-ci'
+FLUTTER_APP_CI_JOB_DISPLAY_NAME = FLUTTER_APP + ' (CI)'
+FLUTTER_APP_RELEASE_JOB_NAME = FLUTTER_APP + '-release-and-tag'
+FLUTTER_APP_RELEASE_JOB_DISPLAY_NAME = FLUTTER_APP + ' (release and tag)'
 ANDROID_RPI4 = 'android-raspberry-pi'
-ANDROID_RPI4_CI_JOB_NAME = ANDROID_RPI4 + ' (CI)'
-ANDROID_RPI4_RELEASE_JOB_NAME = ANDROID_RPI4 + ' (release and tag)'
+ANDROID_RPI4_CI_JOB_NAME = ANDROID_RPI4 + '-ci'
+ANDROID_RPI4_CI_JOB_DISPLAY_NAME = ANDROID_RPI4 + ' (CI)'
+ANDROID_RPI4_RELEASE_JOB_NAME = ANDROID_RPI4 + '-release-and-tag'
+ANDROID_RPI4_RELEASE_JOB_DISPLAY_NAME = ANDROID_RPI4 + ' (release and tag)'
 
 folder(ROOT_PROJECT) {
     description('Folder containing all jobs for ' + ROOT_PROJECT)
 }
 
 multibranchPipelineJob(ROOT_PROJECT + '/' + FLUTTER_APP_CI_JOB_NAME) {
+    displayName(FLUTTER_APP_CI_JOB_DISPLAY_NAME)
     branchSources {
         github {
             id(ROOT_PROJECT + '/' + FLUTTER_APP_CI_JOB_NAME)
@@ -39,7 +44,7 @@ multibranchPipelineJob(ROOT_PROJECT + '/' + FLUTTER_APP_CI_JOB_NAME) {
 }
 
 pipelineJob(ROOT_PROJECT + '/' + FLUTTER_APP_RELEASE_JOB_NAME) {
-    displayName(FLUTTER_APP_RELEASE_JOB_NAME)
+    displayName(FLUTTER_APP_RELEASE_JOB_DISPLAY_NAME)
     keepDependencies(false)
     definition {
         cps {
@@ -49,6 +54,7 @@ pipelineJob(ROOT_PROJECT + '/' + FLUTTER_APP_RELEASE_JOB_NAME) {
 }
 
 multibranchPipelineJob(ROOT_PROJECT + '/' + ANDROID_RPI4_CI_JOB_NAME) {
+    displayName(ANDROID_RPI4_CI_JOB_DISPLAY_NAME)
     branchSources {
         github {
             id(ROOT_PROJECT + '/' + FLUTTER_APP_CI_JOB_NAME)
@@ -76,7 +82,7 @@ multibranchPipelineJob(ROOT_PROJECT + '/' + ANDROID_RPI4_CI_JOB_NAME) {
 }
 
 pipelineJob(ROOT_PROJECT + '/' + ANDROID_RPI4_RELEASE_JOB_NAME) {
-    displayName(ANDROID_RPI4_RELEASE_JOB_NAME)
+    displayName(ANDROID_RPI4_RELEASE_JOB_DISPLAY_NAME)
     keepDependencies(false)
     definition {
         cps {

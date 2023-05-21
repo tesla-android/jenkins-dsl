@@ -1,24 +1,23 @@
 pipeline {
-    agent { label 'flutter' }
+    agent { label 'starship' }
 
     stages {
         stage('Checkout') {
             steps {
-            	git credentialsId: 'tesla-android-jenkins', url: 'git@github.com:tesla-android/android-raspberry-pi.git', branch: "main"
+            	git credentialsId: 'tesla-android-jenkins', url: 'https://github.com/tesla-android/android-raspberry-pi.git', branch: "main"
             }
         }
-        
+        stage('Unfold AOSP repo') {
+            steps {
+                sh('./unfold_aosp.sh')
+            }
+        }
         stage('Set version') {
            steps {
                 script {
                 	file = readFile('aosptree/vendor/tesla-android/vendor.mk');
                     RELEASE_VERSION = getVersion(file);
         		}
-            }
-        }
-        stage('Unfold AOSP repo') {
-            steps {
-                sh('./unfold_aosp.sh')
             }
         }
         stage('Copy signing keys') {
@@ -50,15 +49,16 @@ pipeline {
         		sh ('gh release create ' + RELEASE_VERSION + ' --draft --generate-notes')
         	}
         }
-    }
-    post {
-        success {
-            //cleanWs()
-        }
-        failure {
-            //cleanWs()
+        stage('Clean workspace') {
+        	steps {
+        		cleanWs();
+        	}
         }
     }
+}
+
+def getBuildNumber() {
+    return env.BUILD_NUMBER;
 }
 
 def getVersion(file) {
