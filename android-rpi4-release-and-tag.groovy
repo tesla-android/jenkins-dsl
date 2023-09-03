@@ -30,18 +30,37 @@ pipeline {
                sh 'cp -R /home/jenkins/tesla-android/certificates aosptree/vendor/tesla-android/services/lighttpd/certificates'
             }
         }
-        stage('Compile') {
+        stage('Compile RPI4') {
             steps {
-                sh('./build.sh')
+                sh('./build_rpi4.sh')
             }
         }
-        stage('Capture artifacts') {
+        stage('Capture artifacts RPI4') {
             steps {
                 script {
                     ARTIFACT_NAME = 'TeslaAndroid-' + RELEASE_VERSION + '-RELEASE-rpi4'
                 }
                 dir("out") {
                     sh('mv tesla_android_rpi4-ota-' + getBuildNumber() + '.zip ' + ARTIFACT_NAME + '-OTA.zip')
+                    sh('mv sdcard.img ' + ARTIFACT_NAME + '-single-image-installer.img')
+                    sh('zip ' + ARTIFACT_NAME + '-single-image-installer.img.zip ' + ARTIFACT_NAME + '-single-image-installer.img')
+                    archiveArtifacts artifacts: ARTIFACT_NAME + '-single-image-installer.img.zip', fingerprint: true
+                    archiveArtifacts artifacts: ARTIFACT_NAME + '-OTA.zip', fingerprint: true
+                }
+            }
+        }
+        stage('Compile CM4') {
+            steps {
+                sh('./build_cm4.sh')
+            }
+        }
+        stage('Capture artifacts CM4') {
+            steps {
+                script {
+                    ARTIFACT_NAME = 'TeslaAndroid-' + RELEASE_VERSION + '-RELEASE-cm4'
+                }
+                dir("aosptree/out/target/product/gd_cm4") {
+                    sh('mv tesla_android_cm4-ota-' + getBuildNumber() + '.zip ' + ARTIFACT_NAME + '-OTA.zip')
                     sh('mv sdcard.img ' + ARTIFACT_NAME + '-single-image-installer.img')
                     sh('zip ' + ARTIFACT_NAME + '-single-image-installer.img.zip ' + ARTIFACT_NAME + '-single-image-installer.img')
                     archiveArtifacts artifacts: ARTIFACT_NAME + '-single-image-installer.img.zip', fingerprint: true
