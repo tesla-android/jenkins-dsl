@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-            	git credentialsId: 'tesla-android-jenkins', url: 'git@github.com:tesla-android/flutter-app.git', branch: "main"
+            	git credentialsId: 'tesla-android-jenkins', url: 'git@github.com:tesla-android/flutter-app.git', branch: "develop"
             }
         }
         
@@ -41,7 +41,10 @@ pipeline {
         }
         stage('Tag release') {
         	steps {
-        		sh 'gh release create ' + RELEASE_VERSION + ' --generate-notes ./build/web/*.zip'
+        		script {
+        			BETA_VERSION = RELEASE_VERSION + '-beta'
+                }
+        		sh 'gh release create ' + BETA_VERSION + ' --generate-notes ./build/web/*.zip'
         	}
         }
     }
